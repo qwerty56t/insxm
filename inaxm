@@ -1,0 +1,28 @@
+---
+
+### 2. ملف الكود `y5_checker.py` (مثال مبسط):
+
+```python
+import requests
+import random
+import string
+
+def generate_username(length=5):
+    letters = string.ascii_lowercase + string.digits + '_'
+    return ''.join(random.choice(letters) for _ in range(length))
+
+def check_username(username):
+    url = f"https://www.instagram.com/{username}/"
+    response = requests.get(url)
+    return response.status_code == 404  # إذا الصفحة غير موجودة، يعني اليوزر متاح
+
+def main():
+    while True:
+        username = generate_username()
+        if check_username(username):
+            print(f"يوزر متاح: {username}")
+        else:
+            print(f"محجوز: {username}")
+
+if __name__ == "__main__":
+    main()
